@@ -1,0 +1,15 @@
+worker:
+  image: kontena/log-archiver:latest
+  secrets:
+    - secret: LOG_ARCHIVER_MONGODB_URL
+      name: MONGODB_URL
+      type: env
+    - secret: LOG_ARCHIVER_S3_ACCESS_KEY
+      name: S3_ACCESS_KEY
+      type: env
+    - secret: LOG_ARCHIVER_S3_SECRET_KEY
+      name: S3_SECRET_KEY
+      type: env
+  environment:
+    - S3_REGION=us-east-1
+    - S3_BUCKET=kontena-log-archives
