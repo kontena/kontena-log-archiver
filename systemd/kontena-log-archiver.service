@@ -1,0 +1,22 @@
+[Unit]
+Description=kontena-log-archiver
+After=network-online.target
+After=docker.service
+Description=Kontena Log Archiver
+Documentation=https://github.com/kontena/kontena-log-archiver
+Requires=network-online.target
+Requires=docker.service
+Requires=kontena-server-mongo.service
+
+[Service]
+Restart=always
+RestartSec=5
+EnvironmentFile=/etc/kontena-log-archiver.env
+ExecStartPre=/usr/bin/docker pull kontena/log-archiver:latest
+ExecStartPre=-/usr/bin/docker stop kontena-log-archiver
+ExecStartPre=-/usr/bin/docker rm kontena-log-archiver
+ExecStart=/usr/bin/docker run --name=kontena-log-archiver \
+    --link kontena-server-mongo:mongodb \
+    -e MONGODB_URL=mongodb://mongodb/kontena_server \
+    kontena/log-archiver:latest
+ExecStop=/usr/bin/docker stop kontena-log-archiver

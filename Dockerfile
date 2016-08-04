@@ -1,4 +1,4 @@
-FROM fluent/fluentd:latest
+FROM fluent/fluentd:latest-onbuild
 
 USER root
 RUN apk --no-cache --update add \
